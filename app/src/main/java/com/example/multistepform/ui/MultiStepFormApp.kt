@@ -79,6 +79,9 @@ fun MultiStepFormApp(
                                     name = multiStepFormUiState.personalInfo.name,
                                     email = multiStepFormUiState.personalInfo.email,
                                     phoneNumber = multiStepFormUiState.personalInfo.phoneNumber,
+                                    isNameError = multiStepFormUiState.personalInfo.isNameError,
+                                    isEmailError = multiStepFormUiState.personalInfo.isEmailError,
+                                    isPhoneError = multiStepFormUiState.personalInfo.isPhoneError,
                                     viewModel = viewModel,
                                 )
 
@@ -144,6 +147,9 @@ fun PersonalInfoSection(
     name: String,
     email: String,
     phoneNumber: String,
+    isPhoneError: Boolean = false,
+    isEmailError: Boolean = false,
+    isNameError: Boolean = false,
     viewModel: MultiStepFormViewModel
 ) {
     // TODO: Try to derive the regular expression for a valid email address
@@ -153,7 +159,7 @@ fun PersonalInfoSection(
         description = "Please provide your name, email address and phone number."
     )
 
-    InfoTextBox(
+    InfoTextBox (
         text = "Name",
         value = name,
         onValueChanged = { viewModel.updateName(it) },
@@ -161,6 +167,8 @@ fun PersonalInfoSection(
         keyboardOptions = KeyboardOptions.Default.copy(
             imeAction = ImeAction.Next
         ),
+        isError = isNameError,
+        errorSupportingText = "Please enter a valid name"
     )
 
     InfoTextBox(
@@ -172,7 +180,8 @@ fun PersonalInfoSection(
             keyboardType = KeyboardType.Email,
             imeAction = ImeAction.Next
         ),
-
+        isError = isEmailError,
+        errorSupportingText = "Please input a valid email address"
     )
 
     InfoTextBox(
@@ -184,6 +193,8 @@ fun PersonalInfoSection(
             keyboardType = KeyboardType.Phone,
             imeAction = ImeAction.Done
         ),
+        isError = isPhoneError,
+        errorSupportingText = "Please enter a valid phone number"
     )
 
 }
@@ -239,3 +250,6 @@ fun ThankYouSection() {
 fun MultiStepFormPreview() {
     MultiStepFormApp()
 }
+
+
+

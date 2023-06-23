@@ -23,7 +23,8 @@ class MultiStepFormViewModel: ViewModel() {
     fun updateName(name: String) {
         _uiState.value = _uiState.value.copy(
             personalInfo = _uiState.value.personalInfo.copy(
-                name = name
+                name = name,
+                isNameError = isInvalidName(name)
             )
         )
     }
@@ -31,7 +32,8 @@ class MultiStepFormViewModel: ViewModel() {
     fun updateEmail(email: String) {
         _uiState.value = _uiState.value.copy(
             personalInfo = _uiState.value.personalInfo.copy(
-                email = email
+                email = email,
+                isEmailError = isInvalidEmail(email)
             )
         )
     }
@@ -42,6 +44,15 @@ class MultiStepFormViewModel: ViewModel() {
                 phoneNumber = phoneNumber
             )
         )
+    }
+
+    private fun isInvalidEmail(email: String): Boolean {
+        val emailRegex = Regex("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$")
+        return !emailRegex.matches(email)
+    }
+
+    private fun isInvalidName(name: String): Boolean {
+        return name.length < 2 && !Regex("\\p{Alpha}+").matches(name)
     }
 
 }
