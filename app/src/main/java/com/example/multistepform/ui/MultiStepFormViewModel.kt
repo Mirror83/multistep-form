@@ -1,22 +1,29 @@
 package com.example.multistepform.ui
 
 import androidx.lifecycle.ViewModel
+import com.example.multistepform.ui.sections.SectionConstants
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 
-class MultiStepFormViewModel: ViewModel() {
+class MultiStepFormViewModel : ViewModel() {
     private var _uiState = MutableStateFlow(MultiStepFormUiState())
     val uiState = _uiState.asStateFlow()
 
     fun goToNextScreen() {
         _uiState.value = _uiState.value.copy(
-            currentStep = _uiState.value.currentStep.inc()
+            currentSection = _uiState.value.currentSection.inc()
         )
     }
 
     fun goToPreviousScreen() {
         _uiState.value = _uiState.value.copy(
-            currentStep = _uiState.value.currentStep.dec()
+            currentSection = _uiState.value.currentSection.dec()
+        )
+    }
+
+    fun goToPlanSection() {
+        _uiState.value = _uiState.value.copy(
+            currentSection = SectionConstants.PLAN
         )
     }
 
@@ -46,8 +53,33 @@ class MultiStepFormViewModel: ViewModel() {
         )
     }
 
+    fun changePeriod(period: Period) {
+        _uiState.value = _uiState.value.copy(
+            period = period
+        )
+    }
+
+    fun changePlan(plan: Plan) {
+        _uiState.value = _uiState.value.copy(
+            plan = plan
+        )
+    }
+
+    fun appendAddOn(addOn: AddOn) {
+        _uiState.value = _uiState.value.copy(
+            chosenAddOns = _uiState.value.chosenAddOns.plus(addOn)
+        )
+    }
+
+    fun removeAddOn(addOn: AddOn) {
+        _uiState.value = _uiState.value.copy(
+            chosenAddOns = _uiState.value.chosenAddOns.minus(addOn)
+        )
+    }
+
     private fun isInvalidEmail(email: String): Boolean {
-        val emailRegex = Regex("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$")
+        val emailRegex =
+            Regex("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\\.[a-zA-Z0-9-]+)*$")
         return !emailRegex.matches(email)
     }
 
