@@ -5,4 +5,4 @@ Although the challenges on this site are supposed to be web-based, I saw it as a
 that I have been learning for a while now.
 
 ## Status
-Freezed (not under active development, for the time being)
+Freezed (incomplete and not under active development, for the time being)
